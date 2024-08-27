@@ -1,11 +1,46 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { Context } from "../main";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 function Registration() {
-  const[name,setName]=useState("")
-  const[email,setEmail]=useState("")
-  const[password,setPassword]=useState("")
-  function register(){
-    console.warn(name,email,password)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const { isAuthorized, setIsAuthorized, user, setUser } = useContext(Context);
+
+  const register = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/userinsert", {
+        name,
+        email,
+        password,
+        confirmPassword,
+      });
+      setName("");
+      setEmail("");
+      setPassword("");
+      setIsAuthorized(true);
+    } catch (err) {
+      if (err.response) {
+        console.error("Response data:", err.response.data);
+        console.error("Response status:", err.response.status);
+        console.error("Response headers:", err.response.headers);
+        alert(`Error: ${err.response.data.message || "Unauthorized"}`);
+      } else if (err.request) {
+        console.error("Request data:", err.request);
+        alert("Error: No response received from the server.");
+      } else {
+        console.error("Error message:", err.message);
+        alert(`Error: ${err.message}`);
+      }
+    }
+  };
+  if (isAuthorized) {
+    return <Navigate to={"/dashboard"} />;
   }
   return (
     <>
@@ -26,7 +61,7 @@ function Registration() {
 
             {/* <!-- Column-2 --> */}
             <div className="col-lg-6 bglogin p-4">
-              <form>
+              <form onSubmit={register}>
                 {/* <!-- logo --> */}
                 <center>
                   <img
@@ -53,7 +88,7 @@ function Registration() {
                       placeholder="Enter your name"
                       required
                       value={name}
-                      onChange={(e)=>setName(e.target.value)}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -70,7 +105,7 @@ function Registration() {
                       placeholder="name@example.com"
                       required
                       value={email}
-                      onChange={(e)=>setEmail(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
@@ -81,20 +116,31 @@ function Registration() {
                     Password
                   </div>
                   <div className="col-lg-10">
-                    <input className="form-control" type="password" required  value={password}
-                      onChange={(e)=>setPassword(e.target.value)}/>
+                    <input
+                      className="form-control"
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
                 </div>
 
                 {/* <!-- Confirm Password --> */}
-                {/* <div className="row mb-4">
+                <div className="row mb-4">
                   <div className="col-lg-3 text-center bg-secondary rounded text-light fw-light my-auto p-2">
                     Confirm Password
                   </div>
                   <div className="col-lg-9">
-                    <input className="form-control" type="password" required />
+                    <input
+                      className="form-control"
+                      type="password"
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
                   </div>
-                </div> */}
+                </div>
 
                 {/* <!-- Choose File --> */}
                 {/* <div className="row mb-5">
@@ -110,7 +156,9 @@ function Registration() {
 
                 {/* <!-- Button (Login) --> */}
                 <center>
-                  <button className="btn btn-primary mb-5 btn-lg">Register</button>
+                  <button className="btn btn-primary mb-5 btn-lg">
+                    Register
+                  </button>
                 </center>
               </form>
             </div>
