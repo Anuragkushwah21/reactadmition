@@ -88,15 +88,8 @@ function Footer() {
       {/* <!-- Social Media Link --> */}
       <section id="social">
         <div className="container">
-          <footer className="d-flex flex-wrap justify-content-center align-items-center py-3 border-top">
-            {/* <!-- <ul className="nav col-md-4 justify-content-center list-unstyled d-flex">
-                    <li className="ms-3"><a className="text-white" href="#"><i className="fa-brands fa-facebook fs-4"></i></a></li>
-                    <li className="ms-3"><a className="text-white" href="#"><i className="fa-brands fa-youtube fs-4"></i></a></li>
-                    <li className="ms-3"><a className="text-white" href="#"><i className="fa-brands fa-linkedin fs-4"></i></a></li>
-                    <li className="ms-3"><a className="text-white" href="#"><i className="fa-brands fa-twitter fs-4"></i></a></li>
-                </ul> --> */}
-
-            <ul className="nav col-md-4 justify-content-center list-unstyled d-flex">
+          <footer className="d-flex flex-wrap justify-content-center text-center align-items-center py-3 border-top">
+           <ul className="nav col-md-4 justify-content-center list-unstyled d-flex">
               <li className="ms-3 my-auto">
                 <a className="text-white" href="#">
                   <img
